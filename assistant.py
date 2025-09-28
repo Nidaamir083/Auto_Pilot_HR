@@ -126,24 +126,6 @@ elif menu == "Leave":
         if submitted:
             st.success("✅ Leave applied successfully!")
 
-elif menu == "Performance":
-    st.subheader("📈 Performance Management")
-    st.write("⚡ Coming soon: KPI tracking, appraisals, and more!")
 
-elif menu == "Figma Designs":
-    st.subheader("🎨 Figma Embedded Prototype")
-    st.markdown(
-        """
-        <div class="figma-frame">
-            <iframe 
-                style="border: none;" 
-                width="100%" 
-                height="600" 
-                src="https://www.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-591&p=f&viewport=181%2C-260%2C0.61&t=738XZcKa3C65URXZ-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190">
-            </iframe>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
     
