@@ -446,7 +446,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 st.subheader("🎨 Figma Prototype")
 
-figma_url = "<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-409&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190&embed-host=share" allowfullscreen></iframe>"
+figma_url = "https://embed.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-409&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190&embed-host=share"
 
 st.markdown(f"""
     <iframe
