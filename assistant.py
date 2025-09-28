@@ -46,7 +46,7 @@ st.markdown(f"<h1 style='text-align: center; color:{title_color};'>Autopilot HR<
 st.markdown(f"<p style='text-align: center; font-size:18px; color:{subtitle_color};'>Manage employees, leaves, attendance, promotions & reports</p>", unsafe_allow_html=True)
 
 # ----------------- GEMINI SETUP -----------------
-genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+genai.configure(api_key=st.secrets["Google_API_Key"])
 model = genai.GenerativeModel("gemini-2.0-flash")
 
 # ----------------- DATABASE -----------------
