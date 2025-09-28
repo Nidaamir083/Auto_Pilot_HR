@@ -444,19 +444,52 @@ with col2:
         send_message()
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.subheader("🎨 Figma Prototype")
+import streamlit as st
 
-figma_url = "https://embed.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-409&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190&embed-host=share"
+# Your Figma link (replace with your own if needed)
+figma_link = "https://embed.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-409&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190&embed-host=share"
 
-st.markdown(f"""
-    <iframe
-        src="{figma_url}"
-        width="100%"
-        height="600"
-        style="border: none; border-radius:10px;"
-        allowfullscreen
-    ></iframe>
-""", unsafe_allow_html=True)
+# Professional responsive Figma embed
+figma_url = f"""<style>
+    .figma-container {{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+    }}
+    .figma-frame {{
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        width: 100%;
+        max-width: 420px; /* Phone width on desktop */
+        height: 80vh;     /* Responsive height */
+        margin-bottom: 10px;
+    }}
+    .fullscreen-btn {{
+        text-decoration: none;
+        background: #4CAF50;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: background 0.3s ease;
+    }}
+    .fullscreen-btn:hover {{
+        background: #45a049;
+    }}
+</style>
+
+<div class="figma-container">
+    <iframe class="figma-frame" src="{figma_link}" allowfullscreen></iframe>
+    <a href="{figma_link}" target="_blank" class="fullscreen-btn">🔗 View Fullscreen</a>
+</div>"""
+
+# Render inside Streamlit
+st.markdown(figma_url, unsafe_allow_html=True)
+
 
 
 
