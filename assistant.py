@@ -7,7 +7,7 @@ import pandas as pd
 # ===============================
 # CONFIGURE GOOGLE GEMINI API
 # ===============================
-GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"  # 🔑 Replace with your actual key
+Google_API_Key = "YOUR_GOOGLE_API_KEY"  # 🔑 Replace with your actual key
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # Gemini Model
