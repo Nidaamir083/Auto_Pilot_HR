@@ -1,167 +1,138 @@
-# assistant.py
-import os
 import streamlit as st
-import google.generativeai as genai
-import pandas as pd
 
-# ===============================
-# CONFIGURE GOOGLE GEMINI API
-# ===============================
-Google_API_Key = "AIzaSyCmYETfsB7RKk9SqwNRFd7W0smr15LvJW8"  # 
-genai.configure(api_key=Google_API_Key)
+# ----------------- AUTOPILOT HR THEME -----------------
+st.markdown("""
+    <style>
+    /* Full-screen softer gradient */
+    .stApp {
+        background: linear-gradient(135deg, #4A90E2, #50E3C2);
+        color: #fdfdfd;
+    }
 
-# Gemini Model
-model = genai.GenerativeModel("gemini-1.5-pro")
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: #ffffff;
+        color: #003366;
+    }
 
-# ===============================
-# CUSTOM PAGE CONFIG
-# ===============================
-st.set_page_config(page_title="AutoPilot HR Assistant", layout="wide")
+    /* Buttons */
+    div.stButton > button {
+        background: linear-gradient(135deg, #4A90E2, #50E3C2);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6em 1.2em;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+    div.stButton > button:hover {
+        background: linear-gradient(135deg, #50E3C2, #4A90E2);
+        transform: scale(1.03);
+    }
 
-# Apply fullscreen gradient background
-page_bg = """
-<style>
-.stApp {
-    background: linear-gradient(135deg, #0047AB, #1E90FF);
-    color: white !important;
-}
-.sidebar .sidebar-content {
-    background: rgba(0,0,0,0.4);
-}
-</style>
-"""
-st.markdown(page_bg, unsafe_allow_html=True)
+    /* Titles */
+    h1, h2, h3 {
+        color: #ffffff !important;
+    }
+    p, label, .stMarkdown {
+        color: #f8faff !important;
+    }
 
-# ===============================
-# SIDEBAR NAVIGATION
-# ===============================
-st.sidebar.image("AutoPilot HR logo.jpg", use_column_width=True)  # place your logo file in the same dir
-st.sidebar.title("AutoPilot HR")
-menu = st.sidebar.radio(
-    "Navigation",
-    ["🏠 Dashboard", "👥 Employees", "📅 Attendance", "📝 Leave", "💰 Payroll",
-     "🎯 Performance", "🧑‍💼 Recruitment", "🤖 HR Assistant"]
-)
+    /* Input Fields */
+    .stTextInput > div > div > input {
+        background-color: #ffffff;
+        color: #333333;
+        border-radius: 6px;
+        border: 1px solid #d0d7de;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# ===============================
-# DUMMY HR DATA
-# ===============================
-employees = pd.DataFrame({
-    "Employee ID": [101, 102, 103],
-    "Name": ["Alice Johnson", "Bob Smith", "Charlie Brown"],
-    "Department": ["HR", "Engineering", "Finance"],
-    "Status": ["Active", "Active", "On Leave"]
-})
 
-attendance = pd.DataFrame({
-    "Employee ID": [101, 102, 103],
-    "Date": ["2025-09-25", "2025-09-25", "2025-09-25"],
-    "Status": ["Present", "Present", "Absent"]
-})
+# ----------------- SIDEBAR -----------------
+try:
+    st.sidebar.image("logo.png", use_container_width=True)
+except Exception:
+    st.sidebar.image(
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png",
+        use_container_width=True
+    )
 
-leave = pd.DataFrame({
-    "Leave ID": [1, 2],
-    "Employee": ["Charlie Brown", "Alice Johnson"],
-    "Type": ["Medical", "Annual"],
-    "Status": ["Approved", "Pending"]
-})
+st.sidebar.title("Navigation")
+menu = st.sidebar.radio("Go to", [
+    "Dashboard", "Employees", "Leave", "Attendance",
+    "Promotions", "Reports", "Prototype", "Settings"
+])
 
-payroll = pd.DataFrame({
-    "Employee ID": [101, 102, 103],
-    "Name": ["Alice Johnson", "Bob Smith", "Charlie Brown"],
-    "Salary": [5000, 7000, 6000],
-    "Status": ["Paid", "Pending", "Paid"]
-})
 
-performance = pd.DataFrame({
-    "Employee ID": [101, 102, 103],
-    "Name": ["Alice Johnson", "Bob Smith", "Charlie Brown"],
-    "Rating": ["Excellent", "Good", "Average"]
-})
+# ----------------- MAIN TITLE -----------------
+st.markdown("<h1 style='text-align: center;'>Autopilot HR</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size:18px;'>Manage employees, leaves, attendance, promotions & reports</p>", unsafe_allow_html=True)
 
-recruitment = pd.DataFrame({
-    "Candidate": ["David Miller", "Emma Wilson"],
-    "Position": ["Software Engineer", "HR Manager"],
-    "Status": ["Interview Scheduled", "Under Review"]
-})
 
-# ===============================
-# DASHBOARD
-# ===============================
-if menu == "🏠 Dashboard":
-    st.title("📊 HR Dashboard - AutoPilot HR")
-    st.metric("Total Employees", employees.shape[0])
-    st.metric("On Leave Today", leave[leave["Status"] == "Approved"].shape[0])
-    st.metric("Pending Payroll", payroll[payroll["Status"] == "Pending"].shape[0])
+# ----------------- PAGES -----------------
+if menu == "Dashboard":
+    st.subheader("📊 Overview")
+    st.write("Welcome to the AutoPilot HR Dashboard.")
 
-# ===============================
-# EMPLOYEES
-# ===============================
-elif menu == "👥 Employees":
-    st.title("👥 Employee Records")
-    st.dataframe(employees, use_container_width=True)
+elif menu == "Employees":
+    st.subheader("👥 Employee Management")
+    with st.form("add_employee"):
+        name = st.text_input("Employee Name")
+        role = st.text_input("Role")
+        dept = st.text_input("Department")
+        submitted = st.form_submit_button("➕ Add Employee")
+        if submitted:
+            st.success(f"Employee {name} added successfully!")
 
-# ===============================
-# ATTENDANCE
-# ===============================
-elif menu == "📅 Attendance":
-    st.title("📅 Attendance")
-    st.dataframe(attendance, use_container_width=True)
+elif menu == "Leave":
+    st.subheader("🗓️ Leave Management")
+    with st.form("leave_request"):
+        emp = st.text_input("Employee Name")
+        days = st.number_input("Days Requested", 1, 30)
+        reason = st.text_area("Reason")
+        leave_sub = st.form_submit_button("Submit Leave Request")
+        if leave_sub:
+            st.info(f"Leave request from {emp} submitted for {days} days.")
 
-# ===============================
-# LEAVE
-# ===============================
-elif menu == "📝 Leave":
-    st.title("📝 Leave Management")
-    st.dataframe(leave, use_container_width=True)
+elif menu == "Attendance":
+    st.subheader("📅 Attendance")
+    emp = st.text_input("Employee Name for Attendance")
+    mark = st.button("✅ Mark Present")
+    if mark:
+        st.success(f"Attendance marked for {emp}")
 
-# ===============================
-# PAYROLL
-# ===============================
-elif menu == "💰 Payroll":
-    st.title("💰 Payroll Status")
-    st.dataframe(payroll, use_container_width=True)
+elif menu == "Promotions":
+    st.subheader("📈 Promotions")
+    emp = st.text_input("Employee Name for Promotion")
+    new_role = st.text_input("New Role")
+    promote = st.button("Promote Employee")
+    if promote:
+        st.success(f"{emp} has been promoted to {new_role}")
 
-# ===============================
-# PERFORMANCE
-# ===============================
-elif menu == "🎯 Performance":
-    st.title("🎯 Performance Reviews")
-    st.dataframe(performance, use_container_width=True)
+elif menu == "Reports":
+    st.subheader("📑 Reports")
+    st.write("Generate HR reports here.")
 
-# ===============================
-# RECRUITMENT
-# ===============================
-elif menu == "🧑‍💼 Recruitment":
-    st.title("🧑‍💼 Recruitment")
-    st.dataframe(recruitment, use_container_width=True)
+elif menu == "Prototype":
+    st.subheader("🎨 Figma Prototype")
+    figma_embed = """
+    <div class="figma-container" style="margin-top: 20px;">
+      <iframe
+        src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-591&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190"
+        width="100%"
+        height="600"
+        style="border: none; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);"
+        allowfullscreen>
+      </iframe>
+    </div>
+    """
+    st.markdown(figma_embed, unsafe_allow_html=True)
 
-# ===============================
-# HR ASSISTANT (Gemini)
-# ===============================
-elif menu == "🤖 HR Assistant":
-    st.title("🤖 AutoPilot HR - AI Assistant")
-    st.write("Ask me anything about employees, leave, payroll, or HR policies.")
+elif menu == "Settings":
+    st.subheader("⚙️ Settings")
+    st.write("App configuration options.")
 
-    if "chat_history" not in st.session_state:
-        st.session_state["chat_history"] = []
-
-    # Chat UI
-    user_input = st.text_input("You:", key="user_input")
-    if user_input:
-        with st.spinner("Thinking..."):
-            chat = model.start_chat(history=st.session_state["chat_history"])
-            response = chat.send_message(user_input)
-            st.session_state["chat_history"].append({"role": "user", "parts": [user_input]})
-            st.session_state["chat_history"].append({"role": "model", "parts": [response.text]})
-            st.markdown(f"**Assistant:** {response.text}")
-
-    # Display chat history
-    if st.session_state["chat_history"]:
-        st.write("### Conversation History")
-        for msg in st.session_state["chat_history"]:
-            role = "👤 You" if msg["role"] == "user" else "🤖 Assistant"
-            st.markdown(f"**{role}:** {msg['parts'][0]}")
 
 
     
