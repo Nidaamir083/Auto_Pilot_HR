@@ -49,17 +49,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- HEADER WITH LOGO ---
-st.markdown(
-    """
-    <div class="main-header">
-       st.image("AutoPilot HR logo.jpg", width=120)
-st.markdown("<h1 style='display:inline; margin-left:10px;'>AutoPilot HR Dashboard</h1>", unsafe_allow_html=True)
+col1, col2 = st.columns([1, 5])
 
-        <h1>AutoPilot HR Dashboard</h1>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+with col1:
+    st.image("AutoPilot HR logo.jpg", width=80)
+
+with col2:
+    st.markdown(
+        "<h1 style='margin-top:10px;'>AutoPilot HR Dashboard</h1>",
+        unsafe_allow_html=True
+    )
+
 
 # --- SIDEBAR NAVIGATION ---
 menu = st.sidebar.radio(
