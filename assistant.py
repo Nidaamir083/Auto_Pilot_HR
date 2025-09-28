@@ -129,8 +129,8 @@ if role == "Admin":
     question = st.sidebar.text_area("Ask...")
     if st.sidebar.button("Answer"):
         # (reuse your gemini QnA block here)
-
-   elif menu == "Employee Records":
+        
+elif menu == "Employee Records":
     # Admin can see all employee data
     st.subheader("👥 Employee Records")
     rows = get_employees()
@@ -141,6 +141,7 @@ if role == "Admin":
             st.divider()
     else:
         st.info("No employees yet.")
+
 
 elif role == "Employee":
     # --- EMPLOYEE PANEL (MAIN PAGE) ---
