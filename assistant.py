@@ -1,147 +1,126 @@
-import streamlit as st
+# assistant.py
 
-# ----------------- AUTOPILOT HR THEME -----------------
+import streamlit as st
+import pandas as pd
+
+# --- CONFIG ---
+st.set_page_config(
+    page_title="AutoPilot HR",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# --- GOOGLE API KEY (replace with your own secure method) ---
+GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
+
+# --- STYLE ---
 st.markdown("""
     <style>
-    /* Full-screen softer gradient */
-    .stApp {
-        background: linear-gradient(135deg, #4A90E2, #50E3C2);
-        color: #fdfdfd;
-    }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: #ffffff;
-        color: #003366;
-    }
-
-    /* Buttons */
-    div.stButton > button {
-        background: linear-gradient(135deg, #4A90E2, #50E3C2);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.6em 1.2em;
-        font-size: 15px;
-        transition: 0.3s;
-    }
-    div.stButton > button:hover {
-        background: linear-gradient(135deg, #50E3C2, #4A90E2);
-        transform: scale(1.03);
-    }
-
-    /* Titles */
-    h1, h2, h3 {
-        color: #ffffff !important;
-    }
-    p, label, .stMarkdown {
-        color: #f8faff !important;
-    }
-
-    /* Input Fields */
-    .stTextInput > div > div > input {
-        background-color: #ffffff;
+    body {
+        background: #f7f9fc; /* soft neutral background */
         color: #333333;
-        border-radius: 6px;
-        border: 1px solid #d0d7de;
+    }
+    .main-header {
+        background: linear-gradient(90deg, #004aad, #007bff);
+        color: white;
+        padding: 1.2rem;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    .figma-frame iframe {
+        border-radius: 12px;
+        box-shadow: 0px 4px 16px rgba(0,0,0,0.1);
     }
     </style>
 """, unsafe_allow_html=True)
 
+# --- HEADER ---
+st.markdown("<div class='main-header'>🚀 AutoPilot HR Dashboard</div>", unsafe_allow_html=True)
 
-# ----------------- SIDEBAR -----------------
-try:
-    st.sidebar.image("logo.png", use_container_width=True)
-except Exception:
-    st.sidebar.image(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png",
-        use_container_width=True
-    )
+# --- SIDEBAR NAVIGATION ---
+menu = st.sidebar.radio(
+    "📌 Navigation",
+    ["Dashboard", "Employees", "Attendance", "Leave", "Performance", "Figma Designs"]
+)
 
-st.sidebar.title("Navigation")
-menu = st.sidebar.radio("Go to", [
-    "Dashboard", "Employees", "Leave", "Attendance",
-    "Promotions", "Reports", "Prototype", "Settings"
-])
+# --- DUMMY DATA ---
+employee_data = pd.DataFrame({
+    "Employee ID": [101, 102, 103],
+    "Name": ["Alice", "Bob", "Charlie"],
+    "Department": ["HR", "Finance", "IT"],
+    "Status": ["Active", "On Leave", "Active"]
+})
 
+attendance_data = pd.DataFrame({
+    "Employee ID": [101, 102, 103],
+    "Name": ["Alice", "Bob", "Charlie"],
+    "Date": ["2025-09-28", "2025-09-28", "2025-09-28"],
+    "Status": ["Present", "Absent", "Present"]
+})
 
-# ----------------- MAIN TITLE -----------------
-st.markdown("<h1 style='text-align: center;'>Autopilot HR</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; font-size:18px;'>Manage employees, leaves, attendance, promotions & reports</p>", unsafe_allow_html=True)
+leave_data = pd.DataFrame({
+    "Leave ID": [1, 2],
+    "Employee": ["Alice", "Bob"],
+    "Type": ["Annual", "Sick"],
+    "Status": ["Approved", "Pending"]
+})
 
-
-# ----------------- PAGES -----------------
+# --- PAGES ---
 if menu == "Dashboard":
     st.subheader("📊 Overview")
-    st.write("Welcome to the AutoPilot HR Dashboard.")
+    st.metric("Total Employees", len(employee_data))
+    st.metric("Employees Present Today", sum(attendance_data["Status"] == "Present"))
+    st.metric("Pending Leave Requests", sum(leave_data["Status"] == "Pending"))
 
 elif menu == "Employees":
-    st.subheader("👥 Employee Management")
+    st.subheader("👩‍💼 Employee Management")
+    st.dataframe(employee_data, use_container_width=True)
     with st.form("add_employee"):
-        name = st.text_input("Employee Name")
-        role = st.text_input("Role")
-        dept = st.text_input("Department")
+        st.text_input("Name")
+        st.text_input("Department")
         submitted = st.form_submit_button("➕ Add Employee")
         if submitted:
-            st.success(f"Employee {name} added successfully!")
-
-elif menu == "Leave":
-    st.subheader("🗓️ Leave Management")
-    with st.form("leave_request"):
-        emp = st.text_input("Employee Name")
-        days = st.number_input("Days Requested", 1, 30)
-        reason = st.text_area("Reason")
-        leave_sub = st.form_submit_button("Submit Leave Request")
-        if leave_sub:
-            st.info(f"Leave request from {emp} submitted for {days} days.")
+            st.success("✅ Employee added successfully!")
 
 elif menu == "Attendance":
-    st.subheader("📅 Attendance")
-    emp = st.text_input("Employee Name for Attendance")
-    mark = st.button("✅ Mark Present")
-    if mark:
-        st.success(f"Attendance marked for {emp}")
+    st.subheader("🕒 Attendance Tracking")
+    st.dataframe(attendance_data, use_container_width=True)
+    with st.form("mark_attendance"):
+        st.selectbox("Select Employee", employee_data["Name"])
+        st.selectbox("Status", ["Present", "Absent", "Remote"])
+        submitted = st.form_submit_button("Mark Attendance")
+        if submitted:
+            st.success("✅ Attendance marked!")
 
-elif menu == "Promotions":
-    st.subheader("📈 Promotions")
-    emp = st.text_input("Employee Name for Promotion")
-    new_role = st.text_input("New Role")
-    promote = st.button("Promote Employee")
-    if promote:
-        st.success(f"{emp} has been promoted to {new_role}")
+elif menu == "Leave":
+    st.subheader("🌴 Leave Management")
+    st.dataframe(leave_data, use_container_width=True)
+    with st.form("apply_leave"):
+        st.selectbox("Select Employee", employee_data["Name"])
+        st.selectbox("Leave Type", ["Annual", "Sick", "Maternity", "Unpaid"])
+        submitted = st.form_submit_button("Apply for Leave")
+        if submitted:
+            st.success("✅ Leave applied successfully!")
 
-elif menu == "Reports":
-    st.subheader("📑 Reports")
-    st.write("Generate HR reports here.")
+elif menu == "Performance":
+    st.subheader("📈 Performance Management")
+    st.write("⚡ Coming soon: KPI tracking, appraisals, and more!")
 
-elif menu == "Prototype":
-    st.subheader("🎨 Figma Prototype")
-    figma_embed = """
-    <div class="figma-container" style="margin-top: 20px;">
-      <iframe
-        src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-591&p=f&viewport=181%2C-260%2C0.61&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190"
-        width="100%"
-        height="600"
-        style="border: none; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);"
-        allowfullscreen>
-      </iframe>
-    </div>
-    """
-    st.markdown(figma_embed, unsafe_allow_html=True)
-
-elif menu == "Settings":
-    st.subheader("⚙️ Settings")
-    st.write("App configuration options.")
-
-
-
-    
-    
-  
-
-
-
-
-
-
-
+elif menu == "Figma Designs":
+    st.subheader("🎨 Figma Embedded Prototype")
+    st.markdown(
+        """
+        <div class="figma-frame">
+            <iframe 
+                style="border: none;" 
+                width="100%" 
+                height="600" 
+                src="https://www.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-591&p=f&viewport=181%2C-260%2C0.61&t=738XZcKa3C65URXZ-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190">
+            </iframe>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
