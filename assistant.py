@@ -7,8 +7,8 @@ import pandas as pd
 # ===============================
 # CONFIGURE GOOGLE GEMINI API
 # ===============================
-Google_API_Key = "YOUR_GOOGLE_API_KEY"  # 🔑 Replace with your actual key
-genai.configure(api_key=GOOGLE_API_KEY)
+Google_API_Key = "AIzaSyCmYETfsB7RKk9SqwNRFd7W0smr15LvJW8"  # 🔑 Replace with your actual key
+genai.configure(api_key=Google_API_Key)
 
 # Gemini Model
 model = genai.GenerativeModel("gemini-1.5-pro")
