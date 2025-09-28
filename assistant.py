@@ -52,7 +52,9 @@ st.markdown("""
 st.markdown(
     """
     <div class="main-header">
-        <img src="AutoPilot HR logo.jpg" alt="AutoPilot HR Logo">
+       st.image("AutoPilot HR logo.jpg", width=120)
+st.markdown("<h1 style='display:inline; margin-left:10px;'>AutoPilot HR Dashboard</h1>", unsafe_allow_html=True)
+
         <h1>AutoPilot HR Dashboard</h1>
     </div>
     """,
