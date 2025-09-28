@@ -130,6 +130,7 @@ if role == "Admin":
     if st.sidebar.button("Answer"):
         # (reuse your gemini QnA block here)
 
+   elif menu == "Employee Records":
     # Admin can see all employee data
     st.subheader("👥 Employee Records")
     rows = get_employees()
