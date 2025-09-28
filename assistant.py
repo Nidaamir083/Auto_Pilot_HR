@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # --- GOOGLE API KEY (replace with your own secure method) ---
-Google_API_Key = "AIzaSyCmYETfsB7RKk9SqwNRFd7W0smr15LvJW8"
+Google_API_Key = "YOUR_GOOGLE_API_KEY"
 
 # --- STYLE ---
 st.markdown("""
@@ -21,14 +21,25 @@ st.markdown("""
         color: #333333;
     }
     .main-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(90deg, #004aad, #007bff);
         color: white;
-        padding: 1.2rem;
+        padding: 1rem 1.5rem;
         border-radius: 10px;
-        text-align: center;
-        font-size: 1.8rem;
-        font-weight: bold;
         margin-bottom: 1.5rem;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+    .main-header img {
+        height: 50px;
+        margin-right: 15px;
+        border-radius: 8px;
+    }
+    .main-header h1 {
+        font-size: 1.8rem;
+        margin: 0;
+        font-weight: bold;
     }
     .figma-frame iframe {
         border-radius: 12px;
@@ -37,8 +48,16 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER ---
-st.markdown("<div class='main-header'>🚀 AutoPilot HR Dashboard</div>", unsafe_allow_html=True)
+# --- HEADER WITH LOGO ---
+st.markdown(
+    """
+    <div class="main-header">
+        <img src="AutoPilot HR logo.jpg" alt="AutoPilot HR Logo">
+        <h1>AutoPilot HR Dashboard</h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- SIDEBAR NAVIGATION ---
 menu = st.sidebar.radio(
@@ -49,21 +68,21 @@ menu = st.sidebar.radio(
 # --- DUMMY DATA ---
 employee_data = pd.DataFrame({
     "Employee ID": [101, 102, 103],
-    "Name": ["Alice", "Bob", "Charlie"],
+    "Name": ["Ali", "Babar", "Sara"],
     "Department": ["HR", "Finance", "IT"],
     "Status": ["Active", "On Leave", "Active"]
 })
 
 attendance_data = pd.DataFrame({
     "Employee ID": [101, 102, 103],
-    "Name": ["Alice", "Bob", "Charlie"],
+    "Name": ["Ali", "Babar", "Sara"],
     "Date": ["2025-09-28", "2025-09-28", "2025-09-28"],
     "Status": ["Present", "Absent", "Present"]
 })
 
 leave_data = pd.DataFrame({
     "Leave ID": [1, 2],
-    "Employee": ["Alice", "Bob"],
+    "Employee": ["Ali", "Babar"],
     "Type": ["Annual", "Sick"],
     "Status": ["Approved", "Pending"]
 })
@@ -124,3 +143,5 @@ elif menu == "Figma Designs":
         """,
         unsafe_allow_html=True
     )
+
+    
