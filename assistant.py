@@ -444,6 +444,19 @@ with col2:
         send_message()
 st.markdown('</div>', unsafe_allow_html=True)
 
+st.subheader("🎨 Figma Prototype")
+
+figma_url = "https://www.figma.com/proto/QRbk8IThJie8AkWB9SaQF6/Untitled?page-id=0%3A1&node-id=3-591&p=f&viewport=181%2C-260%2C0.61&t=738XZcKa3C65URXZ-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=15%3A190"
+
+st.markdown(f"""
+    <iframe
+        src="{figma_url}"
+        width="100%"
+        height="600"
+        style="border: none; border-radius:10px;"
+        allowfullscreen
+    ></iframe>
+""", unsafe_allow_html=True)
 
 
 
