@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # --- GOOGLE API KEY (replace with your own secure method) ---
-GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
+Google_API_Key = "YOUR_GOOGLE_API_KEY"
 
 # --- STYLE ---
 st.markdown("""
