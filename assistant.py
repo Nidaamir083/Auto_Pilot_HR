@@ -302,6 +302,40 @@ with st.sidebar:
             except Exception as e:
                 st.error(f"⚠️ Promotion error: {e}")
 
+
+# ----------------- SIDEBAR: QnA ASSISTANT -----------------
+st.sidebar.subheader(" QnA Assistant:")
+
+user_question = st.sidebar.text_area("Ask about HR data...")
+
+if st.sidebar.button("Get Answer"):
+    try:
+        # fetch data from DB
+        employees = get_employees()
+        leaves = get_leaves()
+
+        conn = sqlite3.connect(DB)
+        attendance = pd.read_sql("SELECT * FROM attendance", conn).to_dict(orient="records")
+        promotions = pd.read_sql("SELECT * FROM promotions", conn).to_dict(orient="records")
+        conn.close()
+
+        context = f"""
+        Employees: {employees}
+        Leaves: {leaves}
+        Attendance: {attendance}
+        Promotions: {promotions}
+
+        Question: {user_question}
+        """
+
+        response = model.generate_content(context)
+        st.sidebar.markdown("**Answer:**")
+        st.sidebar.write(response.text)
+
+    except Exception as e:
+        st.sidebar.error(f"⚠️ Error: {e}")
+
+
 # ----------------- MAIN PAGE -----------------
 st.subheader("👥 Employee Records")
 rows = get_employees()
